@@ -16,4 +16,4 @@ const secondMiddlewre = ({ set }) => {
 // 
 
 
-export { checkUser, secondMiddlewre, auth }
+export { checkUser, secondMiddlewre }
