@@ -15,7 +15,7 @@ const userRoute = (app) => {
     app.group("/api/user", app => 
     app
     .get("/a", userController().userTestController, { beforeHandle: [checkUser, secondMiddlewre] }))
-    .post("/signup", authController().UserSignUp)
+
 }
 
 // Export the router

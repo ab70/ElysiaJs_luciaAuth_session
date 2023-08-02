@@ -2,6 +2,7 @@ function userController() {
     return {
         //userController
         async userTestController(context ) {
+         
             // console.log(context.set.user);
             const bard = {
                 name: "Bard",
@@ -34,7 +35,7 @@ function userController() {
         },
 
         //Get user details 
-        async userTestController(context){
+        async userTestController1(context){
             try{
 
             }catch(err){
