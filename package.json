@@ -1,0 +1,30 @@
+{
+  "name": "elysiajs-app",
+  "version": "1.0.0",
+  "description": "A web application using elysiajs framework",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch index.js",
+    "start": "bun run index.js",
+    "nm": "nodemon index.js",
+    "pm": "pm2 start index.js --watch --watch-delay 1000 --max-restarts 3"
+  },
+  "dependencies": {
+    "@elysiajs/cookie": "^0.5.2",
+    "@elysiajs/jwt": "^0.5.3",
+    "@lucia-auth/adapter-mongoose": "^3.0.0",
+    "bcryptjs": "^2.4.3",
+    "bun": "^0.6.14",
+    "connect-mongo": "^5.0.0",
+    "dotenv": "^16.3.1",
+    "elysia": "^0.5.22",
+    "jsonwebtoken": "^9.0.1",
+    "lucia": "latest",
+    "mongoose": "^7.4.0",
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.16.0"
+  }
+}
