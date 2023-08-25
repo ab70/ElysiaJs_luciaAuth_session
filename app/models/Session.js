@@ -1,15 +1,11 @@
 import mongodb from "mongoose";
 
 const sessionSchema = new mongodb.Schema({
-    userId: {
-        type: mongodb.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
+    userId: { type: String, required: true },
+    _id: { type: mongodb.Schema.Types.ObjectId, required: true },
     expiresAt: { type: Date },
-
-    // data: { type: mongoose.Schema.Types.Mixed, default: {} }
-})
+    data: { type: mongodb.Schema.Types.Mixed, default: {} }
+}, { _id: false });
 
 const Session = mongodb.model("Session", sessionSchema)
 
