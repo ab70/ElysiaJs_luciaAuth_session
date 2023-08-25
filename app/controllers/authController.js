@@ -1,6 +1,8 @@
 import User from "../models/User"
 import bcrypt from "bcryptjs";
 import jwt from '@elysiajs/jwt'
+import { auth } from "../middlewares/authMiddleware";
+
 
 function authController() {
     return {
@@ -8,7 +10,7 @@ function authController() {
         async UserSignUp(context) {
             try {
                 const reqBody = context.body;
-                let newUser = new UserSchema({
+                let newUser = new User({
                     userName: reqBody.userName,
                     userPhone: reqBody.userPhone,
                     userEmail: reqBody.userEmail,
@@ -19,14 +21,14 @@ function authController() {
                 context.set.status = 200;
                 return { success: true, message: "Usser registration done.", data: saveUser }
             } catch (err) {
-
+                console.log(err);
                 context.set.status = 400
-                return { success: false, message: "User registration failed." }
+                return { success: false, message: err }
             }
         },
 
         //user login
-        async userlogin({ body,setCookie, set, jwt, cookie }) {
+        async userlogin({ body, setCookie, set, jwt, cookie }) {
             try {
                 const reqBody = body;
                 const findUser = await User.findOne({ userEmail: reqBody.userEmail }).select("_id userEmail userPass userPhone")
@@ -38,7 +40,8 @@ function authController() {
                 if (!comparePass) {
                     return { success: false, message: "Password error." }
                 }
-            
+                const session = await auth.createSession({userId: findUser._id})
+                setCookie("session", session.id, { expires: new Date(Date.now() + 360000) })
                 const token = await jwt.sign({ id: findUser._id, email: findUser.userEmail });
                 console.log(token);
                 setCookie("token", token, { httpOnly: true })

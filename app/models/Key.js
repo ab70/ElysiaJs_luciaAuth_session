@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
+import mongodb from "mongoose";
 
-const keySchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, required: true },
-    hashed_password: {type: String}
-})
+const keySchema = new mongodb.Schema({
+    _id: { type: String },
+    user_id: { type: String },
+    hashed_password: { type: String }
+}, { _id: false })
 
-const Key = mongoose.model("Key", keySchema)
+const Key = mongodb.model("Key", keySchema)
 
 export default Key;

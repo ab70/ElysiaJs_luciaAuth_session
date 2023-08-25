@@ -1,8 +1,8 @@
-import mongoose from "mongoose"
+import mongodb from "mongoose"
 
 /* Creating a schema for the user model. */
 
-const Userschema = new mongoose.Schema({
+const Userschema = new mongodb.Schema({
     userName: { type: String, default: '', trim: true },
     userEmail: {
         type: String, default: '',
@@ -19,11 +19,11 @@ const Userschema = new mongoose.Schema({
     userType: { type: String, enum: ["subscriber", "admin", "moderator", "superAdmin"], default: "subscriber", trim: true },
     subscription: [
         {
-            type: { type: mongoose.Schema.Types.ObjectId, ref: "Subscription" },
+            type: { type: mongodb.Schema.Types.ObjectId, ref: "Subscription" },
             expires: { type: Date, default: null }
         }
     ]
 
 }, { timestamps: true })
-const User = mongoose.model("User", Userschema)
+const User = mongodb.model("User", Userschema)
 export default User
