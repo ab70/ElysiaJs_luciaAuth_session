@@ -41,9 +41,16 @@ function userController() {
             }catch(err){
                 
             }
-        }
+        },
 
-        //
+        //check user 
+        // async dashboard(context){
+        //     try{
+        //         const 
+        //     }catch(err){
+
+        //     }
+        // }
     }
 }
 

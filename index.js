@@ -6,22 +6,22 @@ import dotenv from "dotenv";
 dotenv.config({ path: "./.env" })
 import { cookie } from '@elysiajs/cookie';
 import { jwt } from "@elysiajs/jwt";
-import { lucia } from "lucia";
-import User from "./app/models/User.js";
-import { mongoose } from "@lucia-auth/adapter-mongoose";
+
+// create an ElysiaJS application
+// const app = new elysia.Application();
+// mount the express app to the ElysiaJS
 const app = new Elysia()
+// / start the ElysiaJS app
+// elysiaApp.listen(3000, () => {
+//     console.log('ElysiaJS app started on port 3000');
+// });
 
 mongodb.set("strictQuery", true)
 mongodb.connect(process.env.Mongodb_Conenction, {
   useNewUrlParser: true, useUnifiedTopology: true,
 }).then(() => { console.log("mongodb connected"); })
 
-// const auth = lucia({
-//   adapter: mongoose({
-//     User
-//   }),
-//   env: "DEV"
-// })
+
 
 app.use(
   jwt({

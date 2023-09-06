@@ -2,6 +2,7 @@ import User from "../models/User"
 import bcrypt from "bcryptjs";
 import jwt from '@elysiajs/jwt'
 import { auth } from "../middlewares/authMiddleware";
+// import { auth } from "../middlewares/authMiddleware";
 
 
 function authController() {
@@ -10,16 +11,22 @@ function authController() {
         async UserSignUp(context) {
             try {
                 const reqBody = context.body;
-                let newUser = new User({
-                    userName: reqBody.userName,
-                    userPhone: reqBody.userPhone,
-                    userEmail: reqBody.userEmail,
-                    userPass: bcrypt.hashSync(reqBody.userPass, 10)
+                const user = await auth.createUser({
+                    key: {
+                        providerId: "email",
+                        providerUserId: reqBody.email,
+                        password: reqBody.password
+                    },
+                    attributes: {
+                        email: reqBody.email,
+                        userName: reqBody.userName
+                    }
                 })
-                const saveUser = await newUser.save()
+                console.log("user", user);
+
 
                 context.set.status = 200;
-                return { success: true, message: "Usser registration done.", data: saveUser }
+                return { success: true, message: "Usser registration done.", }
             } catch (err) {
                 console.log(err);
                 context.set.status = 400
@@ -28,23 +35,30 @@ function authController() {
         },
 
         //user login
-        async userlogin({ body, setCookie, set, jwt, cookie }) {
+        async userlogin( {body, set, setCookie}) {
             try {
-                const reqBody = body;
-                const findUser = await User.findOne({ userEmail: reqBody.userEmail }).select("_id userEmail userPass userPhone")
-                if (!findUser) {
-                    set.status = 404;
-                    return { success: false, message: " Cant find user" }
-                }
-                const comparePass = bcrypt.compareSync(reqBody.userPass.toString(), findUser.userPass)
-                if (!comparePass) {
-                    return { success: false, message: "Password error." }
-                }
-                const session = await auth.createSession({userId: findUser._id})
-                setCookie("session", session.id, { expires: new Date(Date.now() + 360000) })
-                const token = await jwt.sign({ id: findUser._id, email: findUser.userEmail });
-                console.log(token);
-                setCookie("token", token, { httpOnly: true })
+                // console.log("request", request);
+                const { email, password } = body;
+
+                const key = await auth.useKey("email", email, password)
+
+                const session = await auth.createSession({
+                    userId: key.userId,
+
+                })
+                const sessionCookie = auth.createSessionCookie(session).serialize()
+                setCookie("l-c",sessionCookie)
+
+                // const authRequest = auth.handleRequest(context)
+                // console.log("authReq", authRequest);
+                // const sessionCookie = authRequest.setSession(session);
+                // setCookie("sessionCookie", sessionCookie.serialize());
+                // console.log("Data", data);
+                // setCookie("session", session.id, { expires: new Date(Date.now() + 360000) })
+                // const token = await jwt.sign({ id: findUser._id, email: findUser.userEmail });
+                // console.log(token);
+                // setCookie("token", token, { httpOnly: true })
+                set.status = 200
                 return { success: true, message: "Loggedin", }
             } catch (err) {
                 console.log(err);

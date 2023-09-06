@@ -12,9 +12,10 @@ const secondMiddlewre = ({ set }) => {
 // 
 
 const auth = lucia({
+    env: "DEV",
     adapter: mongoose({
         User,
-        // Key,
+        Key,
         Session
     }),
     env: "DEV"

@@ -1,12 +1,32 @@
-import mongodb from "mongoose";
+import mongodb from "mongoose"
 
-const sessionSchema = new mongodb.Schema({
-    userId: { type: String, required: true },
-    _id: { type: mongodb.Schema.Types.ObjectId, required: true },
-    expiresAt: { type: Date },
-    data: { type: mongodb.Schema.Types.Mixed, default: {} }
-}, { _id: false });
+const Session = mongodb.model(
+    "Session",
+    new mongodb.Schema(
+        {
+            _id: {
+                type: String,
+                required: true
+            },
 
-const Session = mongodb.model("Session", sessionSchema)
+            user_id: {
+                type: String,
+                required: true
+            },
+
+            active_expires: {
+                type: Number,
+                required: true
+            },
+
+            idle_expires: {
+                type: Number,
+                required: true
+            },
+            attributes: {}
+        },
+        { _id: false }
+    )
+)
 
 export default Session;

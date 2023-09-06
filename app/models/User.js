@@ -1,29 +1,21 @@
 import mongodb from "mongoose"
 
-/* Creating a schema for the user model. */
-
-const Userschema = new mongodb.Schema({
-    userName: { type: String, default: '', trim: true },
-    userEmail: {
-        type: String, default: '',
-        trim: true,
-        match: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-        message: 'Invalid email address'
-    },
-    userPhone: { type: String, default: '', trim: true, },
-    userPass: { type: String, required: true, trim: true, minlength: 5, select: false },
-    userPic: { type: String, trim: true, default: '' },
-    otp: { type: Number, trim: true, default: null, select: false },
-    otpValid: { type: Date, trim: true, default: null },
-    userAuthStatus: { type: String, enum: ["active", "inactive"], default: "inactive", trim: true },
-    userType: { type: String, enum: ["subscriber", "admin", "moderator", "superAdmin"], default: "subscriber", trim: true },
-    subscription: [
+const User = mongodb.model(
+    "User",
+    new mongodb.Schema(
         {
-            type: { type: mongodb.Schema.Types.ObjectId, ref: "Subscription" },
-            expires: { type: Date, default: null }
-        }
-    ]
+            _id: {
+                type: String,
+                required: true
+            },
+            email: { type: String },
+            userName: {
+                type: String,
+            },
 
-}, { timestamps: true })
-const User = mongodb.model("User", Userschema)
+        },
+        { _id: false }
+    )
+)
+
 export default User
