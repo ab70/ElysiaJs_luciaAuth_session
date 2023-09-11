@@ -5,7 +5,7 @@ import mongodb from "mongoose";
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" })
 import { cookie } from '@elysiajs/cookie';
-import { jwt } from "@elysiajs/jwt";
+// import { jwt } from "@elysiajs/jwt";
 
 // create an ElysiaJS application
 // const app = new elysia.Application();
@@ -23,13 +23,13 @@ mongodb.connect(process.env.Mongodb_Conenction, {
 
 
 
-app.use(
-  jwt({
-    name: 'jwt',
-    // This should be Environment Variable
-    secret: process.env.JWT_SECRET
-  })
-)
+// app.use(
+//   jwt({
+//     name: 'jwt',
+//     // This should be Environment Variable
+//     secret: process.env.JWT_SECRET
+//   })
+// )
 app.use(cookie())
 
 

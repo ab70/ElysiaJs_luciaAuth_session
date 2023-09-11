@@ -23,7 +23,9 @@ const Session = mongodb.model(
                 type: Number,
                 required: true
             },
-            attributes: {}
+            attributes: {
+            },
+            db: String
         },
         { _id: false }
     )

@@ -1,3 +1,5 @@
+import { auth } from "../middlewares/authMiddleware";
+import {cookie} from "@elysiajs/cookie"
 function userController() {
     return {
         //userController
@@ -44,13 +46,17 @@ function userController() {
         },
 
         //check user 
-        // async dashboard(context){
-        //     try{
-        //         const 
-        //     }catch(err){
-
-        //     }
-        // }
+        async dashboard({cookie: {luciacook}}){
+            try{
+                // const reqBody = context.body;
+                const sessionId = auth.readSessionCookie(luciacook)
+                console.log("session", sessionId);
+                const sessionValid = await auth.validateSession(sessionId)
+                console.log("SessionValid", sessionValid);
+            }catch(err){
+                console.log(err);
+            }
+        }
     }
 }
 

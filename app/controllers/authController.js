@@ -44,10 +44,13 @@ function authController() {
 
                 const session = await auth.createSession({
                     userId: key.userId,
+                    attributes: {
+                        db: "current"
+                    }
 
                 })
                 const sessionCookie = auth.createSessionCookie(session).serialize()
-                setCookie("l-c",sessionCookie)
+                setCookie("luciacook",sessionCookie)
 
                 // const authRequest = auth.handleRequest(context)
                 // console.log("authReq", authRequest);

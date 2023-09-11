@@ -14,7 +14,9 @@ import authController from '../../app/controllers/authController.js';
 const userRoute = (app) => {
     app.group("/api/user", app => 
     app
-    .get("/a", userController().userTestController, { beforeHandle: [checkUser, secondMiddlewre] }))
+    .get("/a", userController().userTestController, { beforeHandle: [checkUser, secondMiddlewre] })
+    .get("/profile", userController().dashboard)
+    )
 
 }
 
