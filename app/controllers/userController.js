@@ -1,10 +1,10 @@
 import { auth } from "../middlewares/authMiddleware";
-import {cookie} from "@elysiajs/cookie"
+import { cookie } from "@elysiajs/cookie"
 function userController() {
     return {
         //userController
-        async userTestController(context ) {
-         
+        async userTestController(context) {
+
             // console.log(context.set.user);
             const bard = {
                 name: "Bard",
@@ -32,29 +32,30 @@ function userController() {
                 skills: ["writing", "translation", "coding", "data analysis"]
             };
 
-            context.set.status= 200
+            context.set.status = 200
             return { success: true, message: "Fetched.", data: bard }
         },
 
         //Get user details 
-        async userTestController1(context){
-            try{
+        async userTestController1(context) {
+            try {
 
-            }catch(err){
-                
+            } catch (err) {
+
             }
         },
 
         //check user 
-        async dashboard({cookie: {luciacook}}){
-            try{
-                // const reqBody = context.body;
-                const sessionId = auth.readSessionCookie(luciacook)
-                console.log("session", sessionId);
-                const sessionValid = await auth.validateSession(sessionId)
-                console.log("SessionValid", sessionValid);
-            }catch(err){
-                console.log(err);
+        async dashboard({ set }) {
+            try {
+                // print the session value passed fromm middleware
+                console.log("setData, ", set.sessionValue);
+                const data = { j: "kl" }
+                set.status = 200;
+                return { success: true, message: "User profile will work now", data: data }
+            } catch (err) {
+                set.status = 500;
+                return { success: false, message: err.message }
             }
         }
     }

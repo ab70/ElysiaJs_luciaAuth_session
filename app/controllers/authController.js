@@ -35,7 +35,7 @@ function authController() {
         },
 
         //user login
-        async userlogin( {body, set, setCookie}) {
+        async userlogin({ body, set, setCookie }) {
             try {
                 // console.log("request", request);
                 const { email, password } = body;
@@ -45,26 +45,18 @@ function authController() {
                 const session = await auth.createSession({
                     userId: key.userId,
                     attributes: {
-                        db: "current"
+                        db: "I am who!"
                     }
 
                 })
                 const sessionCookie = auth.createSessionCookie(session).serialize()
-                setCookie("luciacook",sessionCookie)
-
-                // const authRequest = auth.handleRequest(context)
-                // console.log("authReq", authRequest);
-                // const sessionCookie = authRequest.setSession(session);
-                // setCookie("sessionCookie", sessionCookie.serialize());
-                // console.log("Data", data);
-                // setCookie("session", session.id, { expires: new Date(Date.now() + 360000) })
-                // const token = await jwt.sign({ id: findUser._id, email: findUser.userEmail });
-                // console.log(token);
-                // setCookie("token", token, { httpOnly: true })
+                auth.deleteDeadUserSessions()
+                setCookie("luciacook", sessionCookie)
                 set.status = 200
                 return { success: true, message: "Loggedin", }
             } catch (err) {
-                console.log(err);
+                set.status = 500;
+                return { success: false, message: err.message }
             }
         }
     }
